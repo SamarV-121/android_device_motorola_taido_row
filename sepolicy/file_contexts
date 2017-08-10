@@ -22,13 +22,6 @@
 /system/bin/wmt_loader                                          u:object_r:wmt_loader_exec:s0
 /system/bin/mobile_log_d                                        u:object_r:mobile_log_d_exec:s0
 /system/bin/netdiag                                             u:object_r:netdiag_exec:s0
-/system/bin/permission_check                                    u:object_r:permission_check_exec:s0
-/system/bin/memsicdx                                            u:object_r:memsicd_exec:s0
-/system/bin/memsicd3416x                                        u:object_r:memsicd3416x_exec:s0
-/system/bin/memsicd3524x                                        u:object_r:memsicd3524x_exec:s0
-/system/bin/qmcX983d                                            u:object_r:qmcX983d_exec:s0
-#/system/bin/guiext-server                                       u:object_r:guiext-server_exec:s0
-/system/bin/meizupshelper                                       u:object_r:meizupshelper_exec:s0
 
 # Meta mode
 /sbin/multi_init                                                u:object_r:init_exec:s0
@@ -59,6 +52,9 @@
 /dev/kd_camera_flashlight                                       u:object_r:camera_device:s0
 /dev/MAINAF                                                     u:object_r:camera_device:s0
 /dev/MTK_SMI                                                    u:object_r:camera_device:s0
+/dev/CAM_CAL_DRV                                                u:object_r:camera_device:s0
+/dev/camera-pipemgr                                             u:object_r:camera_device:s0
+/dev/camera-sysram 																						   
 /dev/MT_pmic_adc_cali                                           u:object_r:pmic_adc_device:s0
 /dev/als_ps(/.*)?                                               u:object_r:als_ps_device:s0
 /dev/mtk-adc-cali(/.*)?                                         u:object_r:mtk-adc-cali_device:s0
@@ -122,4 +118,3 @@
 /data/ccci_cfg(/.*)?                                            u:object_r:ccci_cfg_file:s0
 /data/.tp(/.*)?                                                 u:object_r:thermal_manager_data_file:s0
 
-/sys/devices/virtual/meizu/ps/ps_calibration                    u:object_r:meizu_ps_calibration_trigger:s0
