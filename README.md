@@ -50,6 +50,9 @@ Camera  | 8 MP/5 MP, autofocus, LED flash
  * Divis1969
  * Fire855
  * DanielHK 
+ * Defer
+ * Rmcc
+ * Ashwinr64
  * SeriniTY320
  * Hyperion70
  * Darklord4822
