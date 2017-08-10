@@ -1,0 +1,12 @@
+diff --git a/core/jni/fd_utils-inl.h b/core/jni/fd_utils-inl.h
+index 84252c0..ba07995 100644
+--- a/core/jni/fd_utils-inl.h
++++ b/core/jni/fd_utils-inl.h
+@@ -58,6 +58,7 @@ static const char* kPathWhitelist[] = {
+   "/dev/ion",
+   "/dev/dri/renderD129", // Fixes b/31172436
+   "/system/framework/org.cyanogenmod.platform-res.apk",
++  "/proc/ged",
+ #ifdef PATH_WHITELIST_EXTRA_H
+ PATH_WHITELIST_EXTRA_H
+ #endif
