@@ -44,15 +44,16 @@ Camera  | 8 MP/5 MP, autofocus, LED flash
  * Video Recording on stock camera app
  
 #### Thanks to:
- * DeckerSU
- * Oleg.svs
- * Xen0n
+ * DeckerSU (For Bringup cm-14.1 for x32 MT6737)
+ * Xen0n (For his work on CM for MTK chipsets) 
+ * Oleg.svs (For fix access point)
+ * DanielHK (For his GPS HAL code)
  * Divis1969
+ * Visi0nary
  * Fire855
- * DanielHK 
- * Defer
- * Rmcc
- * Ashwinr64
  * SeriniTY320
  * Hyperion70
  * Darklord4822
+ * Defer
+ * Rmcc
+ * Ashwinr64
