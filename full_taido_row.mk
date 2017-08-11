@@ -11,8 +11,6 @@ ro.adb.secure=0 \
 persist.service.acm.enable=0 \
 persist.sys.usb.config=mtp \
 ro.mount.fs=EXT4 \
-debug.hwui.render_dirty_regions=false \
-ro.sf.lcd_density=290 \
 persist.radio.multisim.config=dsds \
 ro.mtk_lte_support=1 \
 ro.telephony.ril_class=MT6735 \
@@ -22,7 +20,6 @@ persist.gemini.sim_num=2 \
 ril.current.share_modem=2 \
 ro.mtk_gps_support=1 \
 ro.mtk_agps_app=1 \
-persist.debug.xlog.enable=1 \
 persist.sys.display.clearMotion=0 
 
 # The gps config appropriate for this device
@@ -148,9 +145,7 @@ PRODUCT_PACKAGES += \
 # FM Radio
 PRODUCT_PACKAGES += \
     FMRadio \
-    libfmjni 
-
-
+    libfmjni
 
 # mrdump related
 PRODUCT_PACKAGES += \
