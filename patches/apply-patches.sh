@@ -4,6 +4,7 @@ cd system/core
 patch -p1 < ../../device/motorola/taido_row/patches/0001-Remove-CAP_SYS_NICE-from-surfaceflinger.patch
 patch -p1 < ../../device/motorola/taido_row/patches/0004-libnetutils-add-MTK-bits-ifc_ccmni_md_cfg.patch
 patch -p1 < ../../device/motorola/taido_row/patches/0012-PATCH-xen0n-some-MTK-services-e.g.-ril-daemon-mtk-re.patch
+patch -p1 < ../../device/motorola/taido_row/patches/0015-healthd_batteryVoltage.patch
 cd ../..
 cd system/netd
 patch -p1 < ../../device/motorola/taido_row/patches/0010-wifi-tethering-fix.patch
