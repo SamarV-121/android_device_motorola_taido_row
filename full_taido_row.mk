@@ -31,9 +31,6 @@ $(call inherit-product, vendor/motorola/taido_row/taido_row-vendor.mk)
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 PRODUCT_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay # enable this to be able overlay a default wallpaper
 
-PRODUCT_PACKAGES += \
-    libxlog
-
 # Media
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
@@ -108,7 +105,13 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     Torch
 
-# FM Radio
+# Charger
+PRODUCT_PACKAGES += \
+    charger
+	
+# FMRadio
+MTK_FM_SUPPORT := true
+
 PRODUCT_PACKAGES += \
     FMRadio \
     libfmjni
@@ -130,8 +133,10 @@ TARGET_SCREEN_WIDTH := 720
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
 
+# MTK Shims
 PRODUCT_PACKAGES += \
-    libmtk_symbols
+    libmtk_symbols \
+    libxlog
 
 # GPS
 PRODUCT_PACKAGES += \
