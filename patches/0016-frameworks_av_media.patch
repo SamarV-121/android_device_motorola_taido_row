@@ -1,0 +1,390 @@
+diff --git a/include/media/MediaProfiles.h b/include/media/MediaProfiles.h
+index b1c7c15f8..80724da20 100644
+--- a/include/media/MediaProfiles.h
++++ b/include/media/MediaProfiles.h
+@@ -34,7 +34,23 @@ enum camcorder_quality {
+     CAMCORDER_QUALITY_1080P = 6,
+     CAMCORDER_QUALITY_QVGA = 7,
+     CAMCORDER_QUALITY_2160P = 8,
++#if defined(MTK_MEDIA_PROFILES)
++    CAMCORDER_QUALITY_MTK_LOW              = 108,
++    CAMCORDER_QUALITY_MTK_MEDIUM           = 109,
++    CAMCORDER_QUALITY_MTK_HIGH             = 110,
++    CAMCORDER_QUALITY_MTK_FINE             = 111,
++    CAMCORDER_QUALITY_MTK_NIGHT_LOW        = 112,
++    CAMCORDER_QUALITY_MTK_NIGHT_MEDIUM     = 113,
++    CAMCORDER_QUALITY_MTK_NIGHT_HIGH       = 114,
++    CAMCORDER_QUALITY_MTK_NIGHT_FINE       = 115,
++    CAMCORDER_QUALITY_MTK_LIVE_EFFECT      = 116,
++    CAMCORDER_QUALITY_MTK_H264_HIGH        = 117,
++    CAMCORDER_QUALITY_MTK_MPEG4_1080P      = 118,
++    CAMCORDER_QUALITY_MTK_FINE_4K2K        = 123,
++    CAMCORDER_QUALITY_LIST_END             = 123,
++#else
+     CAMCORDER_QUALITY_LIST_END = 8,
++#endif// MTK_MEDIA_PROFILES
+ 
+     CAMCORDER_QUALITY_TIME_LAPSE_LIST_START = 1000,
+     CAMCORDER_QUALITY_TIME_LAPSE_LOW  = 1000,
+@@ -46,7 +62,23 @@ enum camcorder_quality {
+     CAMCORDER_QUALITY_TIME_LAPSE_1080P = 1006,
+     CAMCORDER_QUALITY_TIME_LAPSE_QVGA = 1007,
+     CAMCORDER_QUALITY_TIME_LAPSE_2160P = 1008,
++#if defined(MTK_MEDIA_PROFILES)
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_LOW              = 1108,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_MEDIUM           = 1109,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_HIGH             = 1110,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_FINE             = 1111,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_LOW        = 1112,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_MEDIUM     = 1113,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_HIGH       = 1114,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_FINE       = 1115,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_LIVE_EFFECT      = 1116,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_H264_HIGH        = 1117,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_MPEG4_1080P      = 1118,
++    CAMCORDER_QUALITY_MTK_TIME_LAPSE_FINE_4K2K        = 1123,
++    CAMCORDER_QUALITY_TIME_LAPSE_LIST_END             = 1123,
++#else
+     CAMCORDER_QUALITY_TIME_LAPSE_LIST_END = 1008,
++#endif// MTK_MEDIA_PROFILES
+ 
+     CAMCORDER_QUALITY_HIGH_SPEED_LIST_START = 2000,
+     CAMCORDER_QUALITY_HIGH_SPEED_LOW  = 2000,
+@@ -55,7 +87,24 @@ enum camcorder_quality {
+     CAMCORDER_QUALITY_HIGH_SPEED_720P = 2003,
+     CAMCORDER_QUALITY_HIGH_SPEED_1080P = 2004,
+     CAMCORDER_QUALITY_HIGH_SPEED_2160P = 2005,
++#if defined(MTK_MEDIA_PROFILES)
++    CAMCORDER_QUALITY_MTK_SLOW_MOTION_LIST_START    = 2219,
++    CAMCORDER_QUALITY_MTK_SLOW_MOTION_LOW           = 2219,
++    CAMCORDER_QUALITY_MTK_SLOW_MOTION_MEDIUM        = 2220,
++    CAMCORDER_QUALITY_MTK_SLOW_MOTION_HIGH          = 2221,
++    CAMCORDER_QUALITY_MTK_SLOW_MOTION_FINE          = 2222,
++
++    CAMCORDER_QUALITY_MTK_VGA_120                   = 2231,
++    CAMCORDER_QUALITY_MTK_720P_60                   = 2240,
++    CAMCORDER_QUALITY_MTK_720P_120                  = 2241,
++    CAMCORDER_QUALITY_MTK_720P_180                  = 2242,
++    CAMCORDER_QUALITY_MTK_1080P_60                  = 2250,
++    CAMCORDER_QUALITY_MTK_1080P_120                 = 2251,
++    CAMCORDER_QUALITY_MTK_SLOW_MOTION_LIST_END      = 2251,
++    CAMCORDER_QUALITY_HIGH_SPEED_LIST_END           = 2251,
++#else
+     CAMCORDER_QUALITY_HIGH_SPEED_LIST_END = 2005,
++#endif// MTK_MEDIA_PROFILES
+ 
+     CAMCORDER_QUALITY_VENDOR_START = 10000,
+     CAMCORDER_QUALITY_VGA = 10000,
+
+diff --git a/media/libmedia/Android.mk b/media/libmedia/Android.mk
+index df4e4b6f6..02413d7f5 100644
+--- a/media/libmedia/Android.mk
++++ b/media/libmedia/Android.mk
+@@ -101,5 +101,17 @@ LOCAL_CFLAGS += -Werror -Wno-error=deprecated-declarations -Wall
+ LOCAL_CLANG := true
+ LOCAL_SANITIZE := unsigned-integer-overflow signed-integer-overflow
+ 
++ifeq ($(strip $(BOARD_USES_MTK_HARDWARE)), true)
++LOCAL_SRC_FILES += \
++    mtkaudio_stubs.cpp
++
++LOCAL_C_INCLUDES += $(TOP)/frameworks/rs/server
++
++endif
++
++ifeq ($(BOARD_USES_MTK_MEDIA_PROFILES), true)
++LOCAL_CFLAGS += -DMTK_MEDIA_PROFILES
++endif
++
+ include $(BUILD_SHARED_LIBRARY)
+ 
+diff --git a/media/libmedia/MediaProfiles.cpp b/media/libmedia/MediaProfiles.cpp
+index dd72c16a5..d5b331eaa 100644
+--- a/media/libmedia/MediaProfiles.cpp
++++ b/media/libmedia/MediaProfiles.cpp
+@@ -47,6 +47,9 @@ const MediaProfiles::NameToTagMap MediaProfiles::sAudioEncoderNameMap[] = {
+     {"aac",    AUDIO_ENCODER_AAC},
+     {"heaac",  AUDIO_ENCODER_HE_AAC},
+     {"aaceld", AUDIO_ENCODER_AAC_ELD},
++#ifdef MTK_MEDIA_PROFILES
++    {"vorbis", AUDIO_ENCODER_VORBIS},
++#endif
+     {"lpcm",  AUDIO_ENCODER_LPCM},
+ };
+ 
+@@ -103,6 +106,51 @@ const MediaProfiles::NameToTagMap MediaProfiles::sCamcorderQualityNameMap[] = {
+     {"2k", CAMCORDER_QUALITY_2k},
+     {"timelapseqhd", CAMCORDER_QUALITY_TIME_LAPSE_QHD},
+     {"timelapse2k", CAMCORDER_QUALITY_TIME_LAPSE_2k},
++
++#ifdef MTK_MEDIA_PROFILES
++    {"mtklow", CAMCORDER_QUALITY_MTK_LOW},
++    {"mtkmedium", CAMCORDER_QUALITY_MTK_MEDIUM},
++    {"mtkhigh", CAMCORDER_QUALITY_MTK_HIGH},
++    {"mtkfine", CAMCORDER_QUALITY_MTK_FINE},
++
++    {"mtknightlow", CAMCORDER_QUALITY_MTK_NIGHT_LOW},
++    {"mtknightmedium", CAMCORDER_QUALITY_MTK_NIGHT_MEDIUM},
++    {"mtknighthigh", CAMCORDER_QUALITY_MTK_NIGHT_HIGH},
++    {"mtknightfine", CAMCORDER_QUALITY_MTK_NIGHT_FINE},
++
++    {"mtkliveeffect", CAMCORDER_QUALITY_MTK_LIVE_EFFECT},
++    {"mtkh264high", CAMCORDER_QUALITY_MTK_H264_HIGH},
++    {"mtkmpeg41080p", CAMCORDER_QUALITY_MTK_MPEG4_1080P},
++    {"mtkfine4k2k", CAMCORDER_QUALITY_MTK_FINE_4K2K},
++
++    {"mtktimelapselow", CAMCORDER_QUALITY_MTK_TIME_LAPSE_LOW},
++    {"mtktimelapsemedium", CAMCORDER_QUALITY_MTK_TIME_LAPSE_MEDIUM},
++    {"mtktimelapsehigh", CAMCORDER_QUALITY_MTK_TIME_LAPSE_HIGH},
++    {"mtktimelapsefine", CAMCORDER_QUALITY_MTK_TIME_LAPSE_FINE},
++
++    {"mtktimelapsenightlow", CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_LOW},
++    {"mtktimelapsenightmedium", CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_MEDIUM},
++    {"mtktimelapsenighthigh", CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_HIGH},
++    {"mtktimelapsenightfine", CAMCORDER_QUALITY_MTK_TIME_LAPSE_NIGHT_FINE},
++
++    {"mtktimelapseliveeffect", CAMCORDER_QUALITY_MTK_TIME_LAPSE_LIVE_EFFECT},
++    {"mtktimelapseh264high", CAMCORDER_QUALITY_MTK_TIME_LAPSE_H264_HIGH},
++    {"mtktimelapsempeg41080p", CAMCORDER_QUALITY_MTK_TIME_LAPSE_MPEG4_1080P},
++    {"mtktimelapsefine4k2k", CAMCORDER_QUALITY_MTK_TIME_LAPSE_FINE_4K2K},
++
++    {"mtkslowmotionlow", CAMCORDER_QUALITY_MTK_SLOW_MOTION_LOW},
++    {"mtkslowmotionmedium", CAMCORDER_QUALITY_MTK_SLOW_MOTION_MEDIUM},
++    {"mtkslowmotionhigh", CAMCORDER_QUALITY_MTK_SLOW_MOTION_HIGH},
++    {"mtkslowmotionfine", CAMCORDER_QUALITY_MTK_SLOW_MOTION_FINE},
++
++    {"mtkvga120", CAMCORDER_QUALITY_MTK_VGA_120},
++    {"mtk720p60", CAMCORDER_QUALITY_MTK_720P_60},
++    {"mtk720p120", CAMCORDER_QUALITY_MTK_720P_120},
++    {"mtk720p180", CAMCORDER_QUALITY_MTK_720P_180},
++    {"mtk1080p60", CAMCORDER_QUALITY_MTK_1080P_60},
++    {"mtk1080p120", CAMCORDER_QUALITY_MTK_1080P_120},
++#endif // (MTK_MEDIA_PROFILES)
++
+ };
+ 
+ #if LOG_NDEBUG
+diff --git a/media/libmedia/mtkaudio_stubs.cpp b/media/libmedia/mtkaudio_stubs.cpp
+new file mode 100644
+index 000000000..02e0058df
+--- /dev/null
++++ b/media/libmedia/mtkaudio_stubs.cpp
+@@ -0,0 +1,218 @@
++#include <system/audio.h>
++#include <StrongPointer.h>
++#include <media/IAudioFlinger.h>
++#include <hardware/audio.h>
++#include <stdlib.h>
++#include <dlfcn.h>
++
++namespace android {
++
++typedef void (*audio_error_callback)(status_t err);
++
++class AudioSystem
++{
++public:
++    static bool getVoiceUnlockDLInstance();
++    static int GetVoiceUnlockDLLatency();
++    static int SetVoiceUnlockSRC(uint outSR, uint outChannel);
++    static bool stopVoiceUnlockDL();
++    static bool startVoiceUnlockDL();
++    static int ReadRefFromRing(void*buf, uint32_t datasz,void* DLtime);
++    static int GetVoiceUnlockULTime(void* DLtime);
++    static void freeVoiceUnlockDLInstance();
++
++}; // class
++
++bool AudioSystem::getVoiceUnlockDLInstance()
++{
++  return 0;
++}
++
++int AudioSystem::GetVoiceUnlockDLLatency()
++{
++  return 0;
++}
++
++int AudioSystem::SetVoiceUnlockSRC(uint outSR __unused, uint outChannel __unused)
++{
++  return 0;
++}
++
++bool AudioSystem::stopVoiceUnlockDL()
++{
++  return 0;
++}
++
++bool AudioSystem::startVoiceUnlockDL()
++{
++  return 0;
++}
++
++int AudioSystem::ReadRefFromRing(
++        void *buf __unused,
++        uint32_t datasz __unused,
++        void* DLtime __unused
++        )
++{
++  return 0;
++}
++
++int AudioSystem::GetVoiceUnlockULTime(void* DLtime __unused)
++{
++  return 0;
++}
++
++void AudioSystem::freeVoiceUnlockDLInstance()
++{
++  return;
++}
++
++class IATVCtrlClient
++{
++};
++
++class IATVCtrlService: public IInterface
++{
++public:
++  DECLARE_META_INTERFACE(ATVCtrlService);
++};
++
++class BpATVCtrlService : public BpInterface<IATVCtrlService>
++{
++public:
++    BpATVCtrlService(const sp<IBinder>& impl)
++        : BpInterface<IATVCtrlService>(impl)
++    {
++    }
++    virtual ~BpATVCtrlService()
++    {
++    }
++    virtual int ATVCS_matv_init()
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_ps_init(int on __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_set_parameterb(int in __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_suspend(int on __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_shutdown()
++    {
++        return 0;
++    }
++    virtual void ATVCS_matv_chscan(int mode __unused)
++    {
++    }
++    virtual void ATVCS_matv_chscan_stop()
++    {
++    }
++    virtual int ATVCS_matv_get_chtable(int ch __unused, void *entry __unused, int len __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_set_chtable(int ch __unused, void *entry __unused, int len __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_clear_chtable()
++    {
++        return 0;
++    }
++    virtual void ATVCS_matv_change_channel(int ch __unused)
++    {
++    }
++    virtual void ATVCS_matv_set_country(int country __unused)
++    {
++    }
++    virtual void ATVCS_matv_set_tparam(int mode __unused)
++    {
++    }
++    virtual void ATVCS_matv_audio_play()
++    {
++    }
++    virtual void ATVCS_matv_audio_stop()
++    {
++    }
++    virtual int ATVCS_matv_audio_get_format()
++    {
++        return 0;
++    }
++    virtual void ATVCS_matv_audio_set_format(int val __unused)
++    {
++    }
++    virtual int ATVCS_matv_audio_get_sound_system()
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_adjust(int item __unused, int val __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_get_chipdep(int item __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_matv_set_chipdep(int item __unused, int val __unused)
++    {
++        return 0;
++    }
++    virtual void ATVCS_matv_register_callback()
++    {
++    }
++    virtual void registerClient(const sp<IATVCtrlClient>& client __unused)
++    {
++    }
++    virtual void registerClient_FM(const sp<IATVCtrlClient>& client __unused)
++    {
++    }
++    virtual void CLI(char input __unused)
++    {
++    }
++    virtual int ATVCS_fm_powerup(void *parm __unused, int len __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_powerdown()
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_getrssi()
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_tune(void *parm __unused, int len __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_seek(void *parm __unused, int len __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_scan(void *parm __unused, int len __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_mute(int val __unused)
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_getchipid()
++    {
++        return 0;
++    }
++    virtual int ATVCS_fm_isFMPowerUp()
++    {
++        return 0;
++    }
++};
++
++IMPLEMENT_META_INTERFACE(ATVCtrlService, "android.media.IATVCtrlService");
++
++} // namespace
