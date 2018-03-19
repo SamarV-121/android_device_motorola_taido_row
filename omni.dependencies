@@ -1,8 +1,8 @@
 [
   {
     "remote":"github",
-    "repository": "SamarV-121/android_kernel_motorola_nicklaus",
-    "target_path": "kernel/motorola/nicklaus",
-    "revision":"oreo"
+    "repository": "SamarV-121/android_kernel_motorola_taido_row",
+    "target_path": "kernel/motorola/taido_row",
+    "revision":"nougat"
   }
 ]

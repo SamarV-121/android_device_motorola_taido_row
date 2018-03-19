@@ -17,7 +17,7 @@
 ## Specify phone tech before including full_phone
 
 # Release name
-PRODUCT_RELEASE_NAME := nicklaus
+PRODUCT_RELEASE_NAME := taido_row
 
 # Inherit from the common Open Source product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base_telephony.mk)
@@ -28,18 +28,18 @@ TARGET_SCREEN_WIDTH := 720
 
 # Charger
 PRODUCT_PACKAGES += \
-   charger_res_images \
-   charger
+    charger_res_images \
+    charger
 
 # Time Zone data for recovery
 # PRODUCT_COPY_FILES += \
 #    bionic/libc/zoneinfo/tzdata:recovery/root/system/usr/share/zoneinfo/tzdata
 
 # Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := nicklaus
-PRODUCT_NAME := full_nicklaus
+PRODUCT_DEVICE := taido_row
+PRODUCT_NAME := full_taido_row
 PRODUCT_BRAND := motorola
-PRODUCT_MODEL := Moto E4 Plus
+PRODUCT_MODEL := Moto E³ Power
 PRODUCT_MANUFACTURER := motorola
 
 PRODUCT_GMS_CLIENTID_BASE := android-motorola

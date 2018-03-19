@@ -22,21 +22,21 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_VARIANT := cortex-a53
 
 # Platform
-TARGET_BOARD_PLATFORM := mt6737m
+TARGET_BOARD_PLATFORM := mt6735m
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := mt6737m
+TARGET_BOOTLOADER_BOARD_NAME := mt6735m
 TARGET_NO_BOOTLOADER := true
 # TARGET_NO_FACTORYIMAGE := true
 
 # Filesystems
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
+# TARGET_USERIMAGES_USE_F2FS := true
 
 # Kernel
 BOARD_KERNEL_IMAGE_NAME := zImage-dtb
-TARGET_KERNEL_SOURCE := kernel/motorola/nicklaus
-TARGET_KERNEL_CONFIG := lineageos_nicklaus_defconfig
+TARGET_KERNEL_SOURCE := kernel/motorola/taido_row
+TARGET_KERNEL_CONFIG := taido_row_defconfig
 BOARD_KERNEL_BASE := 0x40000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_RAMDISK_OFFSET := 0x04000000
@@ -57,7 +57,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # TWRP Flags
 RECOVERY_VARIANT := twrp
 TW_THEME := portrait_hdpi
-TW_DEVICE_VERSION := Moto E4 Plus
+TW_DEVICE_VERSION := Moto E³ Power
 # TW_DEVICE_VERSION ?= $(shell date -u +"%Y%m%d_%H%M")
 TW_ALWAYS_RMRF := true
 TW_INCLUDE_CRYPTO := true
@@ -70,8 +70,8 @@ TW_REBOOT_RECOVERY := true
 TW_EXCLUDE_SUPERSU := true
 TW_CUSTOM_CPU_TEMP_PATH := /sys/devices/virtual/thermal/thermal_zone1/temp
 TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
-TW_INCLUDE_FUSE_EXFAT := true # exFAT FS Support
-TW_INCLUDE_FUSE_NTFS := true  # NTFS Support
+# TW_INCLUDE_FUSE_EXFAT := true # exFAT FS Support
+# TW_INCLUDE_FUSE_NTFS := true  # NTFS Support
 
 # USB Mounting [Vold]
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/mt_usb/musb-hdrc.0.auto/gadget/lun0/file

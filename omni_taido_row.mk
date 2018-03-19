@@ -20,6 +20,6 @@ $(call inherit-product, vendor/omni/config/common.mk)
 # Get the prebuilt list of APNs
 $(call inherit-product, vendor/omni/config/gsm.mk)
 
-$(call inherit-product, device/motorola/nicklaus/full_nicklaus.mk)
+$(call inherit-product, device/motorola/taido_row/full_taido_row.mk)
 
-PRODUCT_NAME := omni_nicklaus
+PRODUCT_NAME := omni_taido_row
